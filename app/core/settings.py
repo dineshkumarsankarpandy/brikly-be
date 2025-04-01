@@ -17,6 +17,10 @@ class Settings(BaseSettings):
     DB_PORT: str = os.getenv("DB_PORT", "5432")
     DB_NAME: str = os.getenv("DB_NAME")
 
+    SECRET_KEY: str= os.getenv("SECRET_KEY")  # Make sure to add SECRET_KEY and ALGORITHM here
+    ALGORITHM: str = os.getenv("ALGORITHM")  # Default value for the algorithm
+    ACCESS_TOKEN_EXPIRE_MINUTES: str = os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES")
+    
     @property
     def DATABASE_URL(self):
         from urllib.parse import quote_plus
