@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from app.routes import sitemap, user_routes
 from app.core.settings import settings
 from app.core.config import setup_cors
+from app.routes import sitemap, user_routes
 
 app = FastAPI(title=settings.APP_NAME)
 
