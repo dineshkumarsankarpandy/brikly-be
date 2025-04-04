@@ -139,7 +139,7 @@ class SitemapGenerator(BaseModel):
     language: Optional[str] = None
 
 
-class SaveSitemapRequest(BaseModel):
+class saveSitemap(BaseModel):
     project_name: Optional[str] = None
     project_description: Optional[str] = None
     no_of_pages: Optional[int] = None

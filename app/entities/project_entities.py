@@ -19,9 +19,18 @@ class Project(Base):
     # Relationship back to the User who created it
     creator = relationship("User", back_populates="projects")
 
-    # Relationship to the Sitemap (one-to-one)
-    # cascade="all, delete-orphan": If project is deleted, delete sitemap. If sitemap removed from project in session, delete sitemap.
-    sitemap = relationship("Sitemap", back_populates="project", uselist=False, cascade="all, delete-orphan")
 
+    sitemaps = relationship( 
+        "Sitemap",
+        back_populates="project", 
+        cascade="all, delete-orphan",
+        order_by="desc(Sitemap.created_at)" 
+    )    
+    active_sitemap = relationship(
+        "Sitemap",
+        primaryjoin="and_(Project.id==Sitemap.project_id, Sitemap.is_active==True)",
+        uselist=False,
+        viewonly=True
+    )
     def __repr__(self):
         return f"<Project(id={self.id}, name='{self.project_name}')>"

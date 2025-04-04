@@ -1,24 +1,29 @@
 from app.core.db_setup import Base
-from sqlalchemy import Column, Integer, String, TIMESTAMP, JSON, func, ForeignKey, Text
+from sqlalchemy import Column, Integer, String,Boolean,Index, TIMESTAMP, JSON, func, ForeignKey, Text
 from sqlalchemy.orm import relationship
 
 class Sitemap(Base):
     __tablename__ = 'sitemap'
 
+    __table_args__ = (Index('ix_sitemap_project_id_is_active', "project_id", "is_active"),)
+    
     id = Column(Integer, primary_key=True, index=True, nullable=False)
-    project_id = Column(Integer, ForeignKey("projects.id", ondelete="CASCADE"), unique=True, nullable=False)
+    project_id = Column(Integer, ForeignKey("projects.id", ondelete="CASCADE"), nullable=False)
 
-    project_description = Column(Text, nullable=True) # Keep brief/description if needed specifically for sitemap context
+    project_description = Column(Text, nullable=True) 
     no_of_pages = Column(Integer, default=0)
-    sitemap_data = Column(JSON, nullable=True) # Can be nullable initially
+    sitemap_data = Column(JSON, nullable=True)     
+    is_active = Column(Boolean, default=True, nullable=False, index=True)
     created_at = Column(TIMESTAMP, server_default=func.now())
-    created_by = Column(Integer, ForeignKey("users.id", ondelete="SET NULL"), nullable=True) # Or CASCADE
+    created_by = Column(Integer, ForeignKey("users.id", ondelete="SET NULL"), nullable=True) 
     updated_at = Column(TIMESTAMP, server_default=func.now(), onupdate=func.now())
-    updated_by = Column(Integer, nullable=True) # Could be FK to users
+    updated_by = Column(Integer, nullable=True)
     deleted_at = Column(TIMESTAMP, nullable=True)
-    deleted_by = Column(Integer, nullable=True) # Could be FK to users
+    deleted_by = Column(Integer, nullable=True) 
 
-    project = relationship("Project", back_populates="sitemap")
+    project = relationship("Project", back_populates="sitemaps")
+
+
 
     # creator = relationship("User", back_populates="sitemaps") # You might not need both user links
 

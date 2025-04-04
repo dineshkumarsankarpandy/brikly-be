@@ -101,7 +101,7 @@ async def get_project_details(
     try:
         logging.info(f"User {current_user.id} requesting details for project ID: {project_id}")
         project = db.query(Project)\
-                    .options(joinedload(Project.sitemap))\
+                    .options(joinedload(Project.active_sitemap))\
                     .filter(Project.id == project_id)\
                     .first()
 
