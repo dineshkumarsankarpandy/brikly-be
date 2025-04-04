@@ -1,20 +1,34 @@
-from fastapi import FastAPI
-from app.routes import sitemap, user_routes
-from app.core.settings import settings
-from app.core.config import setup_cors
-from app.routes import sitemap, user_routes
+# main.py
 
-app = FastAPI(title=settings.APP_NAME)
+from fastapi import FastAPI
+from app.routes import user_routes, project_routes, sitemap
+from app.core.settings import settings
+from app.core.config import setup_cors 
+
+bearer_scheme_definition = {
+    "BearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT", 
+        "description": "Enter JWT Bearer token **only**",
+    }
+}
+
+app = FastAPI(
+    title=settings.APP_NAME,
+    openapi_components={"securitySchemes": bearer_scheme_definition},
+)
 
 
 setup_cors(app)
 
-# Include all route modules
-app.include_router(sitemap.router)
-app.include_router(user_routes.router)
+app.include_router(user_routes.router) 
 
-# Root endpoint
+app.include_router(
+    project_routes.router)
+app.include_router(
+    sitemap.router)
+
 @app.get("/")
 async def root():
     return {"message": "Welcome to the Sitemap Generator API"}
-
