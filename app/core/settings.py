@@ -20,6 +20,7 @@ class Settings(BaseSettings):
     SECRET_KEY: str= os.getenv("SECRET_KEY")  # Make sure to add SECRET_KEY and ALGORITHM here
     ALGORITHM: str = os.getenv("ALGORITHM")  # Default value for the algorithm
     ACCESS_TOKEN_EXPIRE_MINUTES: str = os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES")
+
     
     @property
     def DATABASE_URL(self):
@@ -29,9 +30,8 @@ class Settings(BaseSettings):
 
     # LLM API Key
     OPENAI_API_KEY: str = os.getenv("OPENAI_API_KEY")
+    GEMINI_API_KEY: str = os.getenv("GEMINI_API_KEY")
 
     class Config:
-        env_file = ".env"  # Optional, loads env variables
-
-# Create a single instance of settings
+        env_file = ".env"  
 settings = Settings()

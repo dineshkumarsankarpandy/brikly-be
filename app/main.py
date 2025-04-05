@@ -1,7 +1,7 @@
 # main.py
 
 from fastapi import FastAPI
-from app.routes import user_routes, project_routes, sitemap
+from app.routes import user_routes, project_routes, sitemap, website_routes
 from app.core.settings import settings
 from app.core.config import setup_cors 
 
@@ -28,6 +28,8 @@ app.include_router(
     project_routes.router)
 app.include_router(
     sitemap.router)
+
+app.include_router(website_routes.router)
 
 @app.get("/")
 async def root():

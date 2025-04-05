@@ -30,15 +30,88 @@ async def generate_sitemap_generator(data: SitemapGenerator):
     json_project = response.model_dump_json()
     project_brief = json.loads(json_project)
 
-    sitemap_prompt = """
-    Tasks:
-    sitemap: Please write a list of 4 pages for the company's website as a comma-separated sequence.
-    sitemap : Home, About Us, Blogs > Blog Post, Services > Service 1.
-
-    Pages : Write the sitemap for the website. Include navbar and footer.
-    Add a Description for the section.
-
-    Give them in a JSON format: {
+    
+    sectionCategoryCsv = """
+    0|Navbar
+    1|Hero Header Section
+    2|Header Section
+    3|Portfolio Item Header Section
+    4|Project Item Header Section
+    5|Portfolio Item Body Section
+    6|Project Item Body Section
+    7|Portfolio List Section
+    8|Project List Section
+    9|Blog Post Header Section
+    10|Resource Item Header Section
+    11|Case Study Header Section
+    12|Press Article Header Section
+    13|Update Item Header Section
+    14|Event Item Header Section
+    15|Blog Post Body Section
+    16|Resource Item Body Section
+    17|Case Study Body Section
+    18|Documentation Body Section
+    19|Press Release Body Section
+    20|Legal Page Body Section
+    21|Update Item Body Section
+    22|Event Item Body Section
+    23|Event Schedule Section
+    24|Course Item Body Section
+    25|Featured Blog List Header Section
+    26|Featured Resources List Header Section
+    27|Featured Case Study List Header Section
+    28|Featured Press List Header Section
+    29|Featured Updates List Header Section
+    30|Featured Events List Header Section
+    31|Featured Courses List Header Section
+    32|Blog List Section
+    33|Resources List Section
+    34|Case Study List Section
+    35|Press List Section
+    36|Updates List Section
+    37|Events List Section
+    38|Courses List Section
+    39|Feature Section
+    40|Features List Section
+    41|Benefits Section
+    42|How It Works Section
+    43|Services Section
+    44|About Section
+    45|Stats Section
+    46|Ecommerce Product Section
+    47|Timeline Section
+    48|Ecommerce Product Header Section
+    49|Course Item Header Section
+    50|Ecommerce Products List Section
+    51|Testimonial Section
+    52|Reviews Section
+    53|Pricing Section
+    54|Pricing Comparison Section
+    55|CTA Section
+    56|CTA Form Section
+    57|Newsletter Section
+    58|Early Access Section
+    59|Contact Section
+    60|Contact Form Section
+    61|Application Form Section
+    62|Locations Section
+    63|Gallery Section
+    64|Announcement Banner
+    65|Marquee Banner
+    66|FAQ Section
+    67|Team Section
+    68|Logo List Section
+    69|Award Logos List Section
+    70|Customer Logos List Section
+    71|Client Logos List Section
+    72|Partner Logos List Section
+    73|Job Listings Section
+    74|Footer
+    75|Comparison Section
+    """
+    
+    output_json = '''
+             {
         "Sitemap": "",
         "Pages": [
             {
@@ -54,6 +127,19 @@ async def generate_sitemap_generator(data: SitemapGenerator):
             }
         ]
     }
+'''
+
+    sitemap_prompt = f"""
+    Tasks:
+    sitemap: Please write a {data.page} for the company's website as a comma-separated sequence.
+    
+
+
+    Pages : Write the sitemap for the website. Include navbar and footer.atleast pick more than 5 sections based on this {sectionCategoryCsv}
+    Add a Description for the section.
+
+    Give them in a JSON format:
+            {output_json}
 
     Strictly avoid extra text or any unrelated response.
     """
